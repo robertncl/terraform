@@ -1,6 +1,16 @@
 # Copyright (c) HashiCorp, Inc.
 # SPDX-License-Identifier: MPL-2.0
 
+terraform {
+  backend "remote" {
+    organization = "example-org-5715b1"
+
+    workspaces {
+      name = "getting-started"
+    }
+  }
+}
+
 provider "azurerm" {
   features {}
 }
