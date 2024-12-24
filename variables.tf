@@ -41,6 +41,16 @@ variable "node_count" {
   default     = 1
 }
 
+variable "acr_name" {
+  description = "Name of the Azure Container Registry"
+  default     = "testacr"
+}
+
+variable "acr_sku" {
+  description = "SKU of the Azure Container Registry"
+  default     = "Basic"
+}
+
 variable "client_id" {
   description = "Azure Client ID"
   type        = string

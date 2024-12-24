@@ -64,3 +64,15 @@ resource "azurerm_kubernetes_cluster" "test" {
     Environment = "Test"
   }
 }
+
+resource "azurerm_container_registry" "test" {
+  name                = var.acr_name
+  location            = azurerm_resource_group.test.location
+  resource_group_name = azurerm_resource_group.test.name
+  sku                 = var.acr_sku
+  admin_enabled       = true
+
+  tags = {
+    Environment = "Test"
+  }
+}

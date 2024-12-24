@@ -9,3 +9,11 @@ output "aks_cluster_kube_config" {
   sensitive = true
 }
 
+output "acr_name" {
+  value = azurerm_container_registry.test.name
+}
+
+output "acr_login_server" {
+  value = azurerm_container_registry.test.login_server
+}
+
