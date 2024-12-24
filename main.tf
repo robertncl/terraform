@@ -3,10 +3,11 @@
 
 provider "azurerm" {
   features {}
-  subscription_id = "26316f2f-c05d-49a8-93a7-5d6fc2eb6642"
-  client_id       = "robertncl@gmail.com"
+  subscription_id = var.subscription_id
+  client_id       = var.client_id
+  client_secret   = var.client_secret
+  tenant_id       = var.tenant_id
 }
-
 resource "azurerm_resource_group" "example" {
   name     = var.resource_group_name
   location = var.location
