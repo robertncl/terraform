@@ -6,5 +6,6 @@ output "aks_cluster_name" {
 
 output "aks_cluster_kube_config" {
   value = azurerm_kubernetes_cluster.test.kube_config_raw
+  sensitive = true
 }
 
