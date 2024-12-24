@@ -3,7 +3,7 @@
 
 variable "location" {
   description = "Azure region"
-  default     = "West US"
+  default     = "South East Asia"
 }
 
 variable "vm_size" {
@@ -13,27 +13,27 @@ variable "vm_size" {
 
 variable "vm_name" {
   description = "Azure VM name"
-  default     = "Provisioned by Terraform"
+  default     = "provisioned-by-terraform"
 }
 
 variable "resource_group_name" {
   description = "Name of the resource group"
-  default     = "example-resources"
+  default     = "awesome-resources"
 }
 
 variable "vnet_name" {
   description = "Name of the virtual network"
-  default     = "example-vnet"
+  default     = "awesome-vnet"
 }
 
 variable "subnet_name" {
   description = "Name of the subnet"
-  default     = "example-subnet"
+  default     = "awesome-subnet"
 }
 
 variable "nic_name" {
   description = "Name of the network interface"
-  default     = "example-nic"
+  default     = "awesome-nic"
 }
 
 variable "admin_username" {
