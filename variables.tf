@@ -46,3 +46,5 @@ variable "admin_password" {
   default     = "Password1234!"
 }
 
+// Remove client_id, client_secret, and tenant_id as they are managed in Terraform Cloud
+
