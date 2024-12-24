@@ -1,11 +1,11 @@
 # Copyright (c) HashiCorp, Inc.
 # SPDX-License-Identifier: MPL-2.0
 
-output "instance_ami" {
-  value = aws_instance.ubuntu.ami
+output "vm_id" {
+  value = azurerm_virtual_machine.vm.id
 }
 
-output "instance_arn" {
-  value = aws_instance.ubuntu.arn
+output "vm_name" {
+  value = azurerm_virtual_machine.vm.name
 }
 
