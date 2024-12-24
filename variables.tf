@@ -8,7 +8,7 @@ variable "location" {
 
 variable "vm_size" {
   description = "Type of Azure VM to provision"
-  default     = "Standard_B1s"
+  default     = "Standard_B2s"
 }
 
 variable "vm_name" {
@@ -18,22 +18,22 @@ variable "vm_name" {
 
 variable "resource_group_name" {
   description = "Name of the resource group"
-  default     = "awesome-resources"
+  default     = "test-resources"
 }
 
 variable "vnet_name" {
   description = "Name of the virtual network"
-  default     = "awesome-vnet"
+  default     = "test-vnet"
 }
 
 variable "subnet_name" {
   description = "Name of the subnet"
-  default     = "awesome-subnet"
+  default     = "test-subnet"
 }
 
 variable "nic_name" {
   description = "Name of the network interface"
-  default     = "awesome-nic"
+  default     = "test-nic"
 }
 
 variable "admin_username" {
@@ -44,6 +44,21 @@ variable "admin_username" {
 variable "admin_password" {
   description = "Admin password for the VM"
   default     = "Password1234!"
+}
+
+variable "aks_cluster_name" {
+  description = "Name of the AKS cluster"
+  default     = "test-aks-cluster"
+}
+
+variable "dns_prefix" {
+  description = "DNS prefix for the AKS cluster"
+  default     = "testaks"
+}
+
+variable "node_count" {
+  description = "Number of nodes in the default node pool"
+  default     = 1
 }
 
 variable "client_id" {
