@@ -11,11 +11,6 @@ variable "vm_size" {
   default     = "Standard_B2s"
 }
 
-variable "vm_name" {
-  description = "Azure VM name"
-  default     = "provisioned-by-terraform"
-}
-
 variable "resource_group_name" {
   description = "Name of the resource group"
   default     = "test-resources"
@@ -29,21 +24,6 @@ variable "vnet_name" {
 variable "subnet_name" {
   description = "Name of the subnet"
   default     = "test-subnet"
-}
-
-variable "nic_name" {
-  description = "Name of the network interface"
-  default     = "test-nic"
-}
-
-variable "admin_username" {
-  description = "Admin username for the VM"
-  default     = "adminuser"
-}
-
-variable "admin_password" {
-  description = "Admin password for the VM"
-  default     = "Password1234!"
 }
 
 variable "aks_cluster_name" {

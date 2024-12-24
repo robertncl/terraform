@@ -1,14 +1,5 @@
 # Copyright (c) HashiCorp, Inc.
 # SPDX-License-Identifier: MPL-2.0
-
-output "vm_id" {
-  value = azurerm_linux_virtual_machine.awesome.id
-}
-
-output "vm_name" {
-  value = azurerm_linux_virtual_machine.awesome.name
-}
-
 output "aks_cluster_name" {
   value = azurerm_kubernetes_cluster.test.name
 }
