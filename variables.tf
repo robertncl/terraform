@@ -51,6 +51,16 @@ variable "acr_sku" {
   default     = "Basic"
 }
 
+variable "app_service_plan_name" {
+  description = "Name of the App Service Plan"
+  default     = "test-app-service-plan"
+}
+
+variable "app_service_name" {
+  description = "Name of the App Service"
+  default     = "test-app-service"
+}
+
 variable "client_id" {
   description = "Azure Client ID"
   type        = string

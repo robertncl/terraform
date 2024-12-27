@@ -17,3 +17,7 @@ output "acr_login_server" {
   value = azurerm_container_registry.test.login_server
 }
 
+output "app_service_default_site_hostname" {
+  value = azurerm_app_service.test.default_site_hostname
+}
+
