@@ -76,3 +76,34 @@ resource "azurerm_container_registry" "test" {
     Environment = "Test"
   }
 }
+
+resource "azurerm_app_service_plan" "test" {
+  name                = var.app_service_plan_name
+  location            = azurerm_resource_group.test.location
+  resource_group_name = azurerm_resource_group.test.name
+  kind                = "Linux"
+  reserved            = true
+  sku {
+    tier = "Basic"
+    size = "B1"
+  }
+}
+
+resource "azurerm_app_service" "test" {
+  name                = var.app_service_name
+  location            = azurerm_resource_group.test.location
+  resource_group_name = azurerm_resource_group.test.name
+  app_service_plan_id = azurerm_app_service_plan.test.id
+
+  site_config {
+    linux_fx_version = "DOCKER|nginx"
+  }
+
+  app_settings = {
+    "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
+  }
+
+  tags = {
+    Environment = "Test"
+  }
+}
