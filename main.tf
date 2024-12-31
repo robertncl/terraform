@@ -68,3 +68,34 @@ resource "azurerm_kubernetes_cluster" "test" {
     Environment = "Test"
   }
 }
+
+resource "azurerm_private_dns_zone" "test" {
+  name                = "example.com"
+  resource_group_name = azurerm_resource_group.test.name
+}
+
+resource "azurerm_mysql_flexible_server" "test" {
+  name                   = "mysqlfs"	
+  resource_group_name    = azurerm_resource_group.test.name
+  location               = azurerm_resource_group.test.location
+  administrator_login    = "mysqladminun"
+  administrator_password = "H@Sh1CoR3!"
+  version                = "5.7"
+  sku_name               = "GP_Standard_D2ds_v4"
+
+  high_availability {
+    mode = "ZoneRedundant"
+  }
+
+  tags = {
+    Environment = "Test"
+  }
+}
+
+resource "azurerm_mysql_flexible_database" "test" {
+  name                = "testdb"
+  resource_group_name = azurerm_resource_group.test.name
+  server_name         = azurerm_mysql_flexible_server.test.name
+  charset             = "utf8"
+  collation           = "utf8_unicode_ci"
+}
