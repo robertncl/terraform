@@ -13,7 +13,7 @@ variable "vm_size" {
 
 variable "resource_group_name" {
   description = "Name of the resource group"
-  default     = "test-resources"
+  default     = "testRG1"
 }
 
 variable "vnet_name" {
@@ -28,22 +28,23 @@ variable "subnet_name" {
 
 variable "aks_cluster_name" {
   description = "Name of the AKS cluster"
-  default     = "test-aks-cluster"
+  default     = "AKS1"
 }
 
 variable "dns_prefix" {
   description = "DNS prefix for the AKS cluster"
-  default     = "testaks"
+  default     = "aks1"
 }
 
 variable "node_count" {
   description = "Number of nodes in the default node pool"
-  default     = 1
+  default     = 3
 }
 
 variable "client_id" {
   description = "Azure Client ID"
   type        = string
+  default   	= "9456a85f-e65c-49f5-94be-db117c9369d8"
 }
 
 variable "client_secret" {
@@ -55,11 +56,13 @@ variable "client_secret" {
 variable "subscription_id" {
   description = "Azure Subscription ID"
   type        = string
+  default   	= "26316f2f-c05d-49a8-93a7-5d6fc2eb6642"
 }
 
 variable "tenant_id" {
   description = "Azure Tenant ID"
   type        = string
+  default   	= "a2a6ddbf-d5dd-498c-b612-35799b21ac9c"
 }
 
 
