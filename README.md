@@ -11,3 +11,10 @@ TF_VAR_subscription_id
 TF_VAR_tenant_id`
 
 After setting these environment variables, Terraform Cloud will use the service principal credentials to authenticate with Azure
+
+Run on local kubernetes backend with the following change
+
+`    backend "kubernetes" {
+      secret_suffix    = "state"
+      config_path      = "~/.kube/config"
+    }`

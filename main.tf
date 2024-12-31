@@ -2,13 +2,17 @@
 # SPDX-License-Identifier: MPL-2.0
 
 terraform {
-  backend "remote" {
-    organization = "example-org-5715b1"
-
-    workspaces {
-      name = "getting-started"
+#  backend "remote" {
+#    organization = "example-org-5715b1"
+#
+#    workspaces {
+#      name = "getting-started"
+#    }
+#  }
+    backend "kubernetes" {
+      secret_suffix    = "state"
+      config_path      = "~/.kube/config"
     }
-  }
 }
 
 provider "azurerm" {
