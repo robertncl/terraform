@@ -63,6 +63,13 @@ resource "azurerm_subnet" "databricks_subnet" {
   address_prefixes     = ["10.1.1.0/24"]
 }
 
+resource "azurerm_subnet" "databricks_private_subnet" {
+  name                 = var.databricks_private_subnet_name
+  resource_group_name  = azurerm_resource_group.test.name
+  virtual_network_name = azurerm_virtual_network.databricks_vnet.name
+  address_prefixes     = ["10.1.2.0/24"]
+}
+
 resource "azurerm_kubernetes_cluster" "test" {
   name                = var.aks_cluster_name
   location            = azurerm_resource_group.test.location
@@ -96,8 +103,9 @@ resource "azurerm_databricks_workspace" "test" {
   sku                 = "standard"
 
   custom_parameters {
-    virtual_network_id = azurerm_virtual_network.databricks_vnet.id
-    public_subnet_name = azurerm_subnet.databricks_subnet.name
+    virtual_network_id  = azurerm_virtual_network.databricks_vnet.id
+    public_subnet_name  = azurerm_subnet.databricks_subnet.name
+    private_subnet_name = azurerm_subnet.databricks_private_subnet.name
   }
 
   tags = {
