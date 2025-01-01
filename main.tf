@@ -59,16 +59,6 @@ resource "azurerm_subnet" "test" {
   resource_group_name  = azurerm_resource_group.test.name
   virtual_network_name = azurerm_virtual_network.test.name
   address_prefixes     = ["10.0.2.0/24"]
-  delegation {
-    name = "delegation"
-
-    service_delegation {
-      name = "NGINX.NGINXPLUS/nginxDeployments"
-      actions = [
-        "Microsoft.Network/virtualNetworks/subnets/join/action",
-      ]
-    }
-  }
 }
 
 resource "azurerm_kubernetes_cluster" "test" {
@@ -126,27 +116,3 @@ resource "azurerm_key_vault" "test" {
   }
 }
 
-resource "azurerm_nginx_deployment" "test" {
-  name                      = "example-nginx"
-  resource_group_name       = azurerm_resource_group.test.name
-  sku                       = "standardv2_Monthly"
-  location                  = azurerm_resource_group.test.location
-  diagnose_support_enabled  = true
-  automatic_upgrade_channel = "stable"
-
-  frontend_public {
-    ip_address = [azurerm_public_ip.test.id]
-  }
-  network_interface {
-    subnet_id = azurerm_subnet.test.id
-  }
-
-  identity {
-    type = "SystemAssigned"
-  }
-
-
-  capacity = 20
-
-  email = "user@test.com"
-}

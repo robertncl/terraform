@@ -9,10 +9,10 @@ output "aks_cluster_kube_config" {
   sensitive = true
 }
 
-output "nginx_deployment_id" {
-  value = azurerm_nginx_deployment.test.id
-}
-
 output "public_ip" {
   value = azurerm_public_ip.test.ip_address
+}
+
+output "vault_uri" {
+  value = data.azurerm_key_vault.test.vault_uri
 }
