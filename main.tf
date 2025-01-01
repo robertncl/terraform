@@ -50,7 +50,7 @@ resource "azurerm_subnet" "test" {
 }
 
 resource "azurerm_data_factory" "test" {
-  name                = "example-data-factory"
+  name                = "adf-2324"
   location            = azurerm_resource_group.test.location
   resource_group_name = azurerm_resource_group.test.name
 
@@ -61,5 +61,43 @@ resource "azurerm_data_factory" "test" {
   tags = {
     Environment = "Production"
   }
+}
+
+resource "azurerm_postgresql_server" "test" {
+  name                = "examplepgserver"
+  location            = azurerm_resource_group.test.location
+  resource_group_name = azurerm_resource_group.test.name
+
+  sku_name            = "B_Gen5_2"
+  storage_mb          = 5120
+  backup_retention_days = 7
+  administrator_login = "psqladminun"
+  administrator_login_password = "H@Sh1CoR3!"
+
+  version             = "11"
+  ssl_enforcement_enabled = true
+
+  tags = {
+    Environment = "Production"
+  }
+}
+
+resource "azurerm_postgresql_database" "test" {
+  name                = "exampledb"
+  resource_group_name = azurerm_resource_group.test.name
+  server_name         = azurerm_postgresql_server.test.name
+  charset             = "UTF8"
+  collation           = "English_United States.1252"
+}
+
+resource "azurerm_data_factory_linked_service_postgresql" "test" {
+  name                = "example-linked-service"
+  data_factory_id     = azurerm_data_factory.test.id
+
+  connection_string   = <<-EOF
+    Server=${azurerm_postgresql_server.test.fqdn};Port=5432;Database=${azurerm_postgresql_database.test.name};User Id=${azurerm_postgresql_server.test.administrator_login};Password=${azurerm_postgresql_server.test.administrator_login_password};Ssl Mode=Require;
+  EOF
+
+  description = "Linked service to PostgreSQL"
 }
 
