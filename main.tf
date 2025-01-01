@@ -35,18 +35,6 @@ resource "azurerm_resource_group" "test" {
   location = var.location
 }
 
-resource "azurerm_public_ip" "test" {
-  name                = "test"
-  resource_group_name = azurerm_resource_group.test.name
-  location            = azurerm_resource_group.test.location
-  allocation_method   = "Static"
-  sku                 = "Standard"
-
-  tags = {
-    environment = "Production"
-  }
-}
-
 resource "azurerm_virtual_network" "test" {
   name                = var.vnet_name
   address_space       = ["10.0.0.0/16"]

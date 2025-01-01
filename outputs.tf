@@ -9,10 +9,6 @@ output "aks_cluster_kube_config" {
   sensitive = true
 }
 
-output "public_ip" {
-  value = azurerm_public_ip.test.ip_address
-}
-
 output "vault_uri" {
   value = azurerm_key_vault.test.vault_uri
 }
