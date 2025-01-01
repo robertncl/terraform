@@ -51,7 +51,7 @@ resource "azurerm_subnet" "test" {
 
 resource "azurerm_ai_services" "test" {
   name                = "example-account"
-  location            = azurerm_resource_group.test.location
+  location            = "East US"
   resource_group_name = azurerm_resource_group.test.name
   sku_name            = "S0"
 
