@@ -1,14 +1,5 @@
 # Copyright (c) HashiCorp, Inc.
 # SPDX-License-Identifier: MPL-2.0
-output "aks_cluster_name" {
-  value = azurerm_kubernetes_cluster.test.name
-}
-
-output "aks_cluster_kube_config" {
-  value = azurerm_kubernetes_cluster.test.kube_config_raw
-  sensitive = true
-}
-
-output "databricks_workspace_id" {
-  value = azurerm_databricks_workspace.test.workspace_id
+output "id" {
+  value = azurerm_data_factory.test.id
 }
