@@ -75,32 +75,13 @@ resource "azurerm_kubernetes_cluster" "test" {
   }
 }
 
-resource "azurerm_key_vault" "test" {
-  name                        = "testtfkv4831"
-  location                    = azurerm_resource_group.test.location
-  resource_group_name         = azurerm_resource_group.test.name
-  enabled_for_disk_encryption = true
-  tenant_id                   = var.tenant_id
-  soft_delete_retention_days  = 7
-  purge_protection_enabled    = false
+resource "azurerm_databricks_workspace" "test" {
+  name                = "databricks-test"
+  resource_group_name = azurerm_resource_group.test.name
+  location            = azurerm_resource_group.test.location
+  sku                 = "standard"
 
-  sku_name = "standard"
-
-  access_policy {
-    tenant_id = var.tenant_id
-    object_id = var.client_id
-
-    key_permissions = [
-      "Get",
-    ]
-
-    secret_permissions = [
-      "Get",
-    ]
-
-    storage_permissions = [
-      "Get",
-    ]
+  tags = {
+    Environment = "Production"
   }
 }
-

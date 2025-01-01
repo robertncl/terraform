@@ -9,6 +9,6 @@ output "aks_cluster_kube_config" {
   sensitive = true
 }
 
-output "vault_uri" {
-  value = azurerm_key_vault.test.vault_uri
+output "databricks_workspace_id" {
+  value = azurerm_databricks_workspace.test.workspace_id
 }
