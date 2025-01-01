@@ -14,5 +14,5 @@ output "public_ip" {
 }
 
 output "vault_uri" {
-  value = data.azurerm_key_vault.test.vault_uri
+  value = azurerm_key_vault.test.vault_uri
 }
