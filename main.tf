@@ -61,6 +61,16 @@ resource "azurerm_subnet" "databricks_subnet" {
   resource_group_name  = azurerm_resource_group.test.name
   virtual_network_name = azurerm_virtual_network.databricks_vnet.name
   address_prefixes     = ["10.1.1.0/24"]
+
+  delegation {
+    name = "databricks-delegation"
+    service_delegation {
+      name = "Microsoft.Databricks/workspaces"
+      actions = [
+        "Microsoft.Network/virtualNetworks/subnets/join/action",
+      ]
+    }
+  }
 }
 
 resource "azurerm_subnet" "databricks_private_subnet" {
@@ -69,7 +79,7 @@ resource "azurerm_subnet" "databricks_private_subnet" {
   virtual_network_name = azurerm_virtual_network.databricks_vnet.name
   address_prefixes     = ["10.1.2.0/24"]
 
-  delegations {
+  delegation {
     name = "databricks-delegation"
     service_delegation {
       name = "Microsoft.Databricks/workspaces"
@@ -163,4 +173,12 @@ resource "azurerm_databricks_workspace" "test" {
   tags = {
     Environment = "Production"
   }
+}
+
+resource "azurerm_powerbi_embedded" "test" {
+  name                = "examplepowerbi"
+  location            = azurerm_resource_group.test.location
+  resource_group_name = azurerm_resource_group.test.name
+  sku_name            = "A1"
+  administrators      = ["admin@example.com"]  # Update with an appropriate email belonging to the same tenant
 }
