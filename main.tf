@@ -130,32 +130,6 @@ resource "azurerm_subnet_network_security_group_association" "databricks_private
   network_security_group_id = azurerm_network_security_group.databricks_nsg.id
 }
 
-resource "azurerm_kubernetes_cluster" "test" {
-  name                = var.aks_cluster_name
-  location            = azurerm_resource_group.test.location
-  resource_group_name = azurerm_resource_group.test.name
-  dns_prefix          = var.dns_prefix
-
-  default_node_pool {
-    name       = "default"
-    node_count = var.node_count
-    vm_size    = var.vm_size
-  }
-
-  identity {
-    type = "SystemAssigned"
-  }
-
-  network_profile {
-    network_plugin = "azure"
-    network_policy = "azure"
-  }
-
-  tags = {
-    Environment = "Test"
-  }
-}
-
 resource "azurerm_databricks_workspace" "test" {
   name                = "databricks-test"
   resource_group_name = azurerm_resource_group.test.name
@@ -173,12 +147,4 @@ resource "azurerm_databricks_workspace" "test" {
   tags = {
     Environment = "Production"
   }
-}
-
-resource "azurerm_powerbi_embedded" "test" {
-  name                = "examplepowerbi"
-  location            = azurerm_resource_group.test.location
-  resource_group_name = azurerm_resource_group.test.name
-  sku_name            = "A1"
-  administrators      = ["admin@example.com"]  # Update with an appropriate email belonging to the same tenant
 }
