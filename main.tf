@@ -70,6 +70,41 @@ resource "azurerm_subnet" "databricks_private_subnet" {
   address_prefixes     = ["10.1.2.0/24"]
 }
 
+resource "azurerm_network_security_group" "databricks_nsg" {
+  name                = "databricks-nsg"
+  location            = azurerm_resource_group.test.location
+  resource_group_name = azurerm_resource_group.test.name
+
+  security_rule {
+    name                       = "AllowAllInbound"
+    priority                   = 100
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "*"
+    source_port_range          = "*"
+    destination_port_range     = "*"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+
+  security_rule {
+    name                       = "AllowAllOutbound"
+    priority                   = 100
+    direction                  = "Outbound"
+    access                     = "Allow"
+    protocol                   = "*"
+    source_port_range          = "*"
+    destination_port_range     = "*"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+}
+
+resource "azurerm_subnet_network_security_group_association" "databricks_public_subnet_nsg" {
+  subnet_id                 = azurerm_subnet.databricks_subnet.id
+  network_security_group_id = azurerm_network_security_group.databricks_nsg.id
+}
+
 resource "azurerm_kubernetes_cluster" "test" {
   name                = var.aks_cluster_name
   location            = azurerm_resource_group.test.location
@@ -103,9 +138,10 @@ resource "azurerm_databricks_workspace" "test" {
   sku                 = "standard"
 
   custom_parameters {
-    virtual_network_id  = azurerm_virtual_network.databricks_vnet.id
-    public_subnet_name  = azurerm_subnet.databricks_subnet.name
-    private_subnet_name = azurerm_subnet.databricks_private_subnet.name
+    virtual_network_id                                = azurerm_virtual_network.databricks_vnet.id
+    public_subnet_name                                = azurerm_subnet.databricks_subnet.name
+    private_subnet_name                               = azurerm_subnet.databricks_private_subnet.name
+    public_subnet_network_security_group_association_id = azurerm_subnet_network_security_group_association.databricks_public_subnet_nsg.id
   }
 
   tags = {
