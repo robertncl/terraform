@@ -91,13 +91,10 @@ resource "azurerm_postgresql_database" "test" {
 }
 
 resource "azurerm_data_factory_linked_service_postgresql" "test" {
-  name                = "example-linked-service"
+  name                = "example-linked-service4"
   data_factory_id     = azurerm_data_factory.test.id
 
-  connection_string   = <<-EOF
-    Server=${azurerm_postgresql_server.test.fqdn};Port=5432;Database=${azurerm_postgresql_database.test.name};User Id=${azurerm_postgresql_server.test.administrator_login};Password=${azurerm_postgresql_server.test.administrator_login_password};Ssl Mode=Require;
-  EOF
-
+  connection_string = "Host=${azurerm_postgresql_server.test.fqdn};Port=5432;Database=${azurerm_postgresql_database.test.name};UID=psqladminun@examplepgserver;Pwd=${azurerm_postgresql_server.test.administrator_login_password};sslmode=require;"
   description = "Linked service to PostgreSQL"
 }
 
