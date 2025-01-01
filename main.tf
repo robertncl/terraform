@@ -68,6 +68,16 @@ resource "azurerm_subnet" "databricks_private_subnet" {
   resource_group_name  = azurerm_resource_group.test.name
   virtual_network_name = azurerm_virtual_network.databricks_vnet.name
   address_prefixes     = ["10.1.2.0/24"]
+
+  delegations {
+    name = "databricks-delegation"
+    service_delegation {
+      name = "Microsoft.Databricks/workspaces"
+      actions = [
+        "Microsoft.Network/virtualNetworks/subnets/join/action",
+      ]
+    }
+  }
 }
 
 resource "azurerm_network_security_group" "databricks_nsg" {
