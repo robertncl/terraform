@@ -105,6 +105,11 @@ resource "azurerm_subnet_network_security_group_association" "databricks_public_
   network_security_group_id = azurerm_network_security_group.databricks_nsg.id
 }
 
+resource "azurerm_subnet_network_security_group_association" "databricks_private_subnet_nsg" {
+  subnet_id                 = azurerm_subnet.databricks_private_subnet.id
+  network_security_group_id = azurerm_network_security_group.databricks_nsg.id
+}
+
 resource "azurerm_kubernetes_cluster" "test" {
   name                = var.aks_cluster_name
   location            = azurerm_resource_group.test.location
@@ -138,10 +143,11 @@ resource "azurerm_databricks_workspace" "test" {
   sku                 = "standard"
 
   custom_parameters {
-    virtual_network_id                                = azurerm_virtual_network.databricks_vnet.id
-    public_subnet_name                                = azurerm_subnet.databricks_subnet.name
-    private_subnet_name                               = azurerm_subnet.databricks_private_subnet.name
+    virtual_network_id                                 = azurerm_virtual_network.databricks_vnet.id
+    public_subnet_name                                 = azurerm_subnet.databricks_subnet.name
+    private_subnet_name                                = azurerm_subnet.databricks_private_subnet.name
     public_subnet_network_security_group_association_id = azurerm_subnet_network_security_group_association.databricks_public_subnet_nsg.id
+    private_subnet_network_security_group_association_id = azurerm_subnet_network_security_group_association.databricks_private_subnet_nsg.id
   }
 
   tags = {
