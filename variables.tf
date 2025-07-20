@@ -7,13 +7,14 @@ variable "location" {
 }
 
 variable "vm_size" {
-  description = "Type of Azure VM to provision"
-  default     = "Standard_B2s"
+  description = "The size of the Virtual Machine"
+  type        = string
+  default     = "Standard_DS2_v2"
 }
 
 variable "resource_group_name" {
   description = "Name of the resource group"
-  default     = "testRG1"
+  default     = "demo-rg"
 }
 
 variable "vnet_name" {
@@ -27,8 +28,9 @@ variable "subnet_name" {
 }
 
 variable "aks_cluster_name" {
-  description = "Name of the AKS cluster"
-  default     = "AKS1"
+  description = "The name of the AKS cluster"
+  type        = string
+  default     = "exampleaks"
 }
 
 variable "dns_prefix" {
@@ -37,8 +39,9 @@ variable "dns_prefix" {
 }
 
 variable "node_count" {
-  description = "Number of nodes in the default node pool"
-  default     = 3
+  description = "The number of nodes in the default node pool"
+  type        = number
+  default     = 1
 }
 
 variable "client_id" {
@@ -47,23 +50,41 @@ variable "client_id" {
   default   	= "9456a85f-e65c-49f5-94be-db117c9369d8"
 }
 
-variable "client_secret" {
-  description = "Azure Client Secret"
+
+
+variable "postgres_server_name" {
+  description = "The name of the PostgreSQL Flexible Server."
+  type        = string
+  default     = "example-postgres"
+}
+
+variable "postgres_admin_username" {
+  description = "The administrator username for PostgreSQL."
+  type        = string
+  default     = "psqladmin"
+}
+
+variable "postgres_admin_password" {
+  description = "The administrator password for PostgreSQL."
   type        = string
   sensitive   = true
+  default     = "ChangeMe123!"
 }
 
-variable "subscription_id" {
-  description = "Azure Subscription ID"
+variable "postgres_sku_name" {
+  description = "The SKU name for the PostgreSQL Flexible Server."
   type        = string
-  default   	= "26316f2f-c05d-49a8-93a7-5d6fc2eb6642"
+  default     = "Standard_B1ms"
 }
 
-variable "tenant_id" {
-  description = "Azure Tenant ID"
+variable "postgres_version" {
+  description = "The version of PostgreSQL to use."
   type        = string
-  default   	= "a2a6ddbf-d5dd-498c-b612-35799b21ac9c"
+  default     = "15"
 }
 
-
-
+variable "postgres_storage_mb" {
+  description = "The max storage allowed for the PostgreSQL Flexible Server in MB."
+  type        = number
+  default     = 32768
+}
