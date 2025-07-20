@@ -73,3 +73,28 @@ resource "azurerm_kubernetes_cluster" "aks" {
     environment = "testing"
   }
 }
+
+resource "azurerm_postgresql_flexible_server" "postgres" {
+  name                   = var.postgres_server_name
+  resource_group_name    = azurerm_resource_group.test.name
+  location               = azurerm_resource_group.test.location
+  version                = var.postgres_version
+  administrator_login    = var.postgres_admin_username
+  administrator_password = var.postgres_admin_password
+  sku_name               = var.postgres_sku_name
+  storage_mb             = var.postgres_storage_mb
+
+  delegated_subnet_id    = azurerm_subnet.test.id
+
+  high_availability {
+    mode = "ZoneRedundant"
+    standby_availability_zone = "2"
+  }
+
+  authentication {
+    active_directory_auth_enabled = false
+    password_auth_enabled         = true
+  }
+
+  depends_on = [azurerm_subnet.test]
+}
