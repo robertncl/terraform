@@ -20,3 +20,13 @@ output "postgres_admin_username" {
   description = "The admin username for the PostgreSQL Flexible Server."
   value       = azurerm_postgresql_flexible_server.postgres.administrator_login
 }
+
+output "nginx_ingress_namespace" {
+  description = "Namespace where NGINX ingress controller is deployed"
+  value       = helm_release.nginx_ingress.namespace
+}
+
+output "nginx_ingress_status" {
+  description = "Status of the NGINX ingress controller deployment"
+  value       = helm_release.nginx_ingress.status
+}

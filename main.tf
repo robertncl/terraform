@@ -30,6 +30,22 @@ provider "azurerm" {
   
 }
 
+provider "kubernetes" {
+  host                   = azurerm_kubernetes_cluster.aks.kube_config.0.host
+  client_certificate     = base64decode(azurerm_kubernetes_cluster.aks.kube_config.0.client_certificate)
+  client_key             = base64decode(azurerm_kubernetes_cluster.aks.kube_config.0.client_key)
+  cluster_ca_certificate = base64decode(azurerm_kubernetes_cluster.aks.kube_config.0.cluster_ca_certificate)
+}
+
+provider "helm" {
+  kubernetes {
+    host                   = azurerm_kubernetes_cluster.aks.kube_config.0.host
+    client_certificate     = base64decode(azurerm_kubernetes_cluster.aks.kube_config.0.client_certificate)
+    client_key             = base64decode(azurerm_kubernetes_cluster.aks.kube_config.0.client_key)
+    cluster_ca_certificate = base64decode(azurerm_kubernetes_cluster.aks.kube_config.0.cluster_ca_certificate)
+  }
+}
+
 resource "azurerm_resource_group" "test" {
   name     = var.resource_group_name
   location = var.location
@@ -97,4 +113,60 @@ resource "azurerm_postgresql_flexible_server" "postgres" {
   }
 
   depends_on = [azurerm_subnet.test]
+}
+
+# NGINX Ingress Controller
+resource "helm_release" "nginx_ingress" {
+  name       = "nginx-ingress"
+  repository = "https://kubernetes.github.io/ingress-nginx"
+  chart      = "ingress-nginx"
+  namespace  = var.nginx_ingress_namespace
+  create_namespace = true
+
+  set {
+    name  = "controller.service.type"
+    value = var.nginx_ingress_service_type
+  }
+
+  set {
+    name  = "controller.replicaCount"
+    value = var.nginx_ingress_replica_count
+  }
+
+  set {
+    name  = "controller.service.externalTrafficPolicy"
+    value = "Local"
+  }
+
+  set {
+    name  = "controller.resources.requests.cpu"
+    value = "100m"
+  }
+
+  set {
+    name  = "controller.resources.requests.memory"
+    value = "128Mi"
+  }
+
+  set {
+    name  = "controller.resources.limits.cpu"
+    value = "200m"
+  }
+
+  set {
+    name  = "controller.resources.limits.memory"
+    value = "256Mi"
+  }
+
+  set {
+    name  = "controller.config.enable-real-ip"
+    value = "true"
+  }
+
+  set {
+    name  = "controller.config.use-proxy-protocol"
+    value = "false"
+  }
+
+  depends_on = [azurerm_kubernetes_cluster.aks]
 }
